@@ -1,61 +1,26 @@
-#include "list.h" // Include our custom header file
+#include "route.h" // Include our custom header file
 
-#define MAX_LINE_LENGTH 100
 
 // --- Main Program Logic ---
 
 int main() {
-    FILE *file;
-    char line[MAX_LINE_LENGTH];
-    const char *filename = "locations.csv";
-    int lines_read = 0;
+    int distance = 0;
+    int origin_location_ID = 102;
+    int origin_index;
+    int destination_location_ID = 113;
+    char routefile[] = "locations.csv";
+    int record_count = 0;
 
-    // Open the CSV file for reading
-    file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file");
-        fprintf(stderr, "Please ensure '%s' is in the same directory.\n", filename);
-        return 1;
-    }
-
-    printf("Reading data from '%s'...\n", filename);
-
-    // Read the CSV file line by line
-    while (fgets(line, sizeof(line), file)) {
-        char *id_str;
-        char *name;
-        int id;
-
-        // 1. Get Location ID
-        id_str = strtok(line, ",");
-        if (id_str == NULL) continue;
-        id = atoi(id_str);
-
-        // 2. Get Location Name
-        name = strtok(NULL, "\n");
-        if (name == NULL) continue;
-
-        // Cleanup trailing carriage return
-        size_t len = strlen(name);
-        if (len > 0 && name[len - 1] == '\r') {
-            name[len - 1] = '\0';
-        }
-
-        // 3. Create and insert the node using functions from list.c
-        Node* newNode = createNode(id, name);
-        insertNode(newNode);
-        lines_read++;
-    }
-
-    fclose(file);
-
-    printf("Finished processing file. %d record(s) read.\n", lines_read);
-
+    Data *Route = createArray(routefile,&record_count);
     // Display the list
-    displayList();
+    displayList(Route, record_count);
 
-    // Clean up memory
-    freeList();
+    printf("%d",record_count);
+
+    printf("%d",origin_index);
+
+    free(Route);
+    Route = NULL;
 
     return 0;
 }
