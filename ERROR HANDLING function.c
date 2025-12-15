@@ -188,8 +188,19 @@ float calculateFare(int distance) {
     fare = round25cent(fare);
 
     // 2. Discount Logic
-    printf("Are you a student / elderly / disabled? (y/n): ");
-    scanf(" %c", &choice);
+    while (1) {
+        int ch;
+        printf("Are you a student / elderly / disabled? (y/n): ");
+
+        scanf(" %c", &choice);
+        while ((ch = getchar()) != '\n' && ch != EOF);
+
+        if (choice == 'y' || choice == 'Y' || choice == 'n' || choice == 'N') {
+            break;
+        } else {
+            printf("Invalid input. Please enter 'y' for Yes or 'n' for No.\n");
+        }
+    }
 
     if (choice == 'y' || choice == 'Y') {
         // Apply 20% discount
